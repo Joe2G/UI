@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "YChat",
+    "slug": "Joe2Chat",
+    "scheme": "j2chat",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": false,
+    "androidStatusBar": {
+      "hidden": false,
+      "translucent": false,
+      "barStyle": "light-content",
+      "backgroundColor": "#000000"
+    },
+    "androidNavigationBar": {
+      "visible": "sticky-immersive",
+      "backgroundColor": "#000000"
+    },
+    "platforms": [
+      "android"
+    ],
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/c4e1d7fa-55a5-4ab5-af3a-19505660d9fb"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "android": {
+      "package": "com.joe.ychat",
+      "versionCode": 1,
+      "permissions": [
+        "INTERNET",
+        "INTERNET"
+      ],
+      "runtimeVersion": "1.0.0"
+    },
+    "plugins": [
+      "expo-notifications"
+    ],
+    "extra": {
+      "SERVER_URL": "http://192.168.1.3:3000",
+      "environment": "production",
+      "eas": {
+        "projectId": "c4e1d7fa-55a5-4ab5-af3a-19505660d9fb"
+      }
+    },
+    "ios": {
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
+    }
+  }
+}

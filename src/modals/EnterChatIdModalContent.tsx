@@ -11,6 +11,7 @@ interface Props {
 
 export default function EnterChatIdModalContent({ onSubmit, hideModal }: Props) {
   const { colors } = useTheme();
+  const { user } = useAppStore(); // Retrieve the current user
   const [input, setInput] = useState('');
 
   const handleSubmit = async (id: string) => {

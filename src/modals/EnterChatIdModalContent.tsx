@@ -14,16 +14,22 @@ export default function EnterChatIdModalContent({ onSubmit, hideModal }: Props) 
   const [input, setInput] = useState('');
 
   const handleSubmit = async (id: string) => {
+    if (!user?.id) {
+      Alert.alert('Error', 'User not logged in');
+      return;
+    }
     try {
-      const response = axios.get(`${SERVER_URL}/api/chats/${id}`);
-      if ((await response).data) {
+      // Call the join endpoint so that the backend adds the user to allowedUsers
+      const response = await axios.post(`${SERVER_URL}/api/chats/join`, { chatId: id, userId: user.id });
+      if (response.data) {
         hideModal();
         onSubmit(id);
       } else {
         Alert.alert('Error', 'Chat ID does not exist');
       }
     } catch (error) {
-      Alert.alert('Error', 'Chat ID does not exist');
+      console.error('Error joining chat:', error);
+      Alert.alert('Error', 'Chat ID does not exist or you are not authorized to join it.');
     }
   };
 

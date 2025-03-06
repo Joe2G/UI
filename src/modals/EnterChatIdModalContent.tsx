@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SERVER_URL } from '../config';
+import useAppStore from '../stores/appStore';
 
 interface Props {
   onSubmit: (chatId: string) => void;

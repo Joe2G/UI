@@ -1,7 +1,7 @@
 export const APP_NAME = "YChat";
 
 import Constants from 'expo-constants';
-export const SERVER_URL = Constants.expoConfig?.extra?.SERVER_URL || "http://192.168.1.3:3000";
+export const SERVER_URL = Constants.expoConfig?.extra?.SERVER_URL || "http://192.168.1.5:3000";
  // Replace YOUR_PC_IP with your actual  IP
 
 export const SOCKET_URL = SERVER_URL; // If using Socket.io for real-time chat

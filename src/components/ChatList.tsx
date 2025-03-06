@@ -255,7 +255,7 @@ function ChatList() {
   // ─────────────────────────────────────────────────────────────
   const shareChat = async (chatId: string) => {
     // Create a deep link using your custom scheme "j2chat"
-    const link = `j2chat://chat/${chatId}`;
+    const link = chatId;
     try {
       await Clipboard.setStringAsync(link);
       Alert.alert('Copied', 'Chat link copied to clipboard!');

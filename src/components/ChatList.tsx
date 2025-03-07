@@ -254,13 +254,13 @@ function ChatList() {
   //  Share a chat (copy link to clipboard)
   // ─────────────────────────────────────────────────────────────
   const shareChat = async (chatId: string) => {
-    // Create a deep link using your custom scheme "j2chat"
-    const link = chatId;
     try {
-      await Clipboard.setStringAsync(link);
-      Alert.alert('Copied', 'Chat link copied to clipboard!');
+      await axios.post(`${SERVER_URL}/api/chats/share`, { chatId }); 
+      await Clipboard.setStringAsync(chatId); // Only the chat ID is copied
+      Alert.alert('Copied', 'Chat ID copied to clipboard!');
     } catch (error) {
       console.error('Error sharing chat:', error);
+      Alert.alert('Error', 'Failed to share chat.');
     }
   };
 

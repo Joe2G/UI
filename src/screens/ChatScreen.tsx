@@ -177,7 +177,7 @@ export default function ChatScreen() {
   if (loading) {
     return (
       <View style={styles(colors).loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color="#007AFF" /> {/* Changed from colors.primary */}
       </View>
     );
   }

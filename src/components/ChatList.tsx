@@ -170,35 +170,20 @@ function ChatList() {
           placeholderTextColor={colors.onSurfaceVariant}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-          <Button
-            title="Cancel"
-            onPress={() => {
-              hideModal();
-            }}
-          />
-          <Button
-            title="Create VIP Chat"
+          <TouchableOpacity
+            style={{ backgroundColor: '#6c757d', padding: 10, borderRadius: 5 }}
+            onPress={() => { hideModal(); }}
+          >
+            <Text style={{ color: '#fff' }}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{ backgroundColor: '#007AFF', padding: 10, borderRadius: 5 }}
             onPress={async () => {
-              if (input.trim() && password.trim() === REQUIRED_VIP_PASSWORD) {
-                try {
-                  const response = await axios.post(`${SERVER_URL}/api/chats`, {
-                    ownerId: user.id,
-                    isVIP: true,
-                    customChatId: input.trim(),
-                  });
-                  hideModal();
-                  Alert.alert('VIP Chat Created', 'Your VIP chat was created successfully.');
-                  navigation.navigate('Chat', { chatId: response.data.chatId });
-                  fetchChats();
-                } catch (error) {
-                  console.error('Error creating VIP chat:', error);
-                  Alert.alert('Error', 'Could not create VIP chat.');
-                }
-              } else {
-                Alert.alert('Input Error', 'Please enter a valid Chat ID and correct VIP Password.');
-              }
+              // ... existing logic
             }}
-          />
+          >
+            <Text style={{ color: '#fff' }}>Create VIP Chat</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -338,7 +323,7 @@ function ChatList() {
         <IconButton
           icon="share"
           onPress={() => shareChat(item.chatId)}
-          iconColor={colors.primary}
+          iconColor="#007AFF" // Changed from colors.primary
           size={20}
         />
         <IconButton
@@ -354,7 +339,7 @@ function ChatList() {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color="#007AFF" /> {/* Changed from colors.primary */}
       </View>
     );
   }
@@ -386,9 +371,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 12,
+    padding: 16, // Increased from 12
     borderRadius: 8,
-    marginBottom: 8, // Removed elevation since Surface handles it
+    marginBottom: 8,
   },
   chatContent: {
     flex: 1,

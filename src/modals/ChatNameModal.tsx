@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Surface, useTheme } from 'react-native-paper';
 
 interface ChatNameModalProps {
@@ -21,11 +21,12 @@ export default function ChatNameModal({ initialValue, onSubmit }: ChatNameModalP
         placeholder="Enter new chat name"
         placeholderTextColor={colors.onSurfaceVariant}
       />
-      <Button
-        title="Save"
+      <TouchableOpacity
+        style={{ backgroundColor: '#007AFF', padding: 10, borderRadius: 5 }}
         onPress={() => onSubmit(name.trim())}
-        color={colors.primary}
-      />
+      >
+        <Text style={{ color: '#fff' }}>Save</Text>
+      </TouchableOpacity>
     </Surface>
   );
 }

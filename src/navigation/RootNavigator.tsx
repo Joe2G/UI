@@ -6,6 +6,7 @@ import { useTheme } from 'react-native-paper'; // Import useTheme
 import SignInScreen from '../screens/SignInScreen';
 import AppNavigator from './AppNavigator';
 import useAppStore from '../stores/appStore';
+import { MD3Colors } from 'react-native-paper/lib/typescript/types';
 
 const Stack = createStackNavigator();
 
@@ -30,9 +31,18 @@ export default function RootNavigator() {
   }, []);
 
   if (loading) {
+    const styles = (colors: MD3Colors) => ({
+      loadingContainer: {
+        flex: 1,
+        justifyContent: 'center' as 'center',
+        alignItems: 'center' as 'center',
+        backgroundColor: colors.background,
+      },
+    });
+
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <ActivityIndicator size="large" />
+      <View style={styles(colors).loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" /> {/* Changed from colors.primary */}
       </View>
     );
   }

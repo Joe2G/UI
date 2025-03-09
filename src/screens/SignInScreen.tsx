@@ -19,26 +19,26 @@ export default function SignInScreen({ navigation }) {
       Alert.alert('Input Error', 'Please enter a username');
       return;
     }
-  
+
     console.log('[FRONTEND] Attempting registration with:', { username: trimmedUsername });
-  
+
     try {
       const response = await axios.post(`${SERVER_URL}/api/register`, { username: trimmedUsername }, { timeout: 10000 });
       console.log('[FRONTEND] Server response:', response.data);
-  
+
       if (!response.data?.password || !response.data?.username) {
         throw new Error('Invalid server response structure');
       }
-  
+
       const userData = {
         id: response.data.password,
         username: response.data.username,
       };
-  
+
       console.log('[FRONTEND] Storing user data:', userData);
       await AsyncStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
-  
+
       console.log('[FRONTEND] Navigating to ChatList');
       navigation.replace('ChatList');
     } catch (error) {
@@ -53,7 +53,6 @@ export default function SignInScreen({ navigation }) {
       <Text style={[styles.title, { color: colors.onSurface }]}>Welcome To YChat</Text>
       <Text style={[styles.subtitle, { color: colors.onSurface }]}>Get Started</Text>
       <Text style={[styles.label, { color: colors.onSurface }]}>Enter your username</Text>
-
       <TextInput
         placeholder="Username"
         style={[styles.input, { borderColor: colors.onSurfaceVariant, color: colors.onSurface, backgroundColor: colors.surface }]}
@@ -64,15 +63,13 @@ export default function SignInScreen({ navigation }) {
         testID="usernameInput"
         placeholderTextColor={colors.onSurfaceVariant}
       />
-
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: colors.primary }]}
+        style={[styles.button, { backgroundColor: '#007AFF' }]} // Changed from colors.primary
         onPress={handleSubmit}
         testID="submitButton"
       >
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
-
       <Text style={[styles.footer, { color: colors.onSurfaceVariant }]}>This App is made By Joe</Text>
     </View>
   );

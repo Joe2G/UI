@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import { Surface, useTheme } from 'react-native-paper';
 import { SERVER_URL } from '../config';
 import useAppStore from '../stores/appStore';
@@ -45,8 +45,18 @@ export default function EnterChatIdModalContent({ onSubmit, hideModal }: Props) 
         placeholderTextColor={colors.onSurfaceVariant}
       />
       <View style={styles.buttonsRow}>
-        <Button title="Cancel" onPress={() => { hideModal(); onSubmit(''); }} color={colors.error} />
-        <Button title="Join Chat" onPress={() => input.trim() && handleSubmit(input.trim())} color={colors.primary} />
+        <TouchableOpacity
+          style={{ backgroundColor: '#6c757d', padding: 10, borderRadius: 5 }}
+          onPress={() => { hideModal(); onSubmit(''); }}
+        >
+          <Text style={{ color: '#fff' }}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ backgroundColor: '#007AFF', padding: 10, borderRadius: 5 }}
+          onPress={() => input.trim() && handleSubmit(input.trim())}
+        >
+          <Text style={{ color: '#fff' }}>Join Chat</Text>
+        </TouchableOpacity>
       </View>
     </Surface>
   );

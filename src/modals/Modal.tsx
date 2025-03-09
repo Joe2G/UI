@@ -20,8 +20,8 @@ export default function CustomModal() {
       animationType="slide"
       onRequestClose={handleRequestClose}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+      <View style={[styles.centeredView, { backgroundColor: 'rgba(0,0,0,0.6)' }]}>
+        <View style={[styles.modalView, { elevation: 5 }]}>
           {modal.content}
         </View>
       </View>
@@ -34,13 +34,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalView: {
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 35,
+    padding: 40,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
   },
 });

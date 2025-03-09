@@ -71,7 +71,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isCurrentUser })
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 6, // spacing between messages
+    marginVertical: 8, // Increased from 6 for more spacing
     maxWidth: '80%',
   },
   senderName: {
@@ -79,26 +79,34 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   bubble: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 16,
+    paddingVertical: 10, // Increased from 8 for better padding
+    paddingHorizontal: 14, // Increased from 12
+    borderRadius: 20, // Increased from 16 for a more modern look
+    elevation: 2, // Add shadow on Android
+    shadowColor: '#000', // Add shadow on iOS
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   text: {
-    fontSize: 14,
+    fontSize: 16, // Increased from 14
   },
   timestamp: {
-    fontSize: 10,
+    fontSize: 12, // Increased from 10
     marginTop: 4,
     textAlign: 'right',
   },
   systemContainer: {
     alignSelf: 'center',
     marginVertical: 8,
+    backgroundColor: '#f0f0f0', // Light gray background for system messages
+    padding: 8,
+    borderRadius: 10,
   },
   systemText: {
     fontStyle: 'italic',
     fontSize: 12,
-    color: '#888',
+    color: '#666', // Slightly darker gray for contrast
     textAlign: 'center',
   },
 });

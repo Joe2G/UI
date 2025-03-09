@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet } from 'react-native';
 import { useTheme, IconButton } from 'react-native-paper';
 import useSocket from '../hooks/useSocket';
 import useAppStore from '../stores/appStore';
+import { Surface } from 'react-native-paper';
 
 interface SendMessageProps {
   chatId: string;
@@ -31,12 +32,12 @@ const SendMessage: React.FC<SendMessageProps> = ({ chatId }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Surface style={styles.container} elevation={4}>
       <TextInput
         style={[
           styles.input,
           {
-            borderColor: dark ? colors.onSurface : colors.onSurface, // Use onSurface for border
+            borderColor: dark ? colors.onSurface : colors.onSurface,
             color: colors.onSurface,
             backgroundColor: colors.surface,
           },
@@ -54,7 +55,7 @@ const SendMessage: React.FC<SendMessageProps> = ({ chatId }) => {
         size={24}
         style={styles.iconButton}
       />
-    </View>
+    </Surface>
   );
 };
 

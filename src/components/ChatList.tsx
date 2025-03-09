@@ -21,6 +21,8 @@ import { RootStackParamList } from '../types/navigation';
 import { SERVER_URL } from '../config';
 import * as Clipboard from 'expo-clipboard';
 import EnterChatIdModalContent from '../modals/EnterChatIdModalContent';
+import { Surface } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const REQUIRED_VIP_PASSWORD = 'Th@I$N0tTheP@$$w0rd';
 
@@ -30,8 +32,7 @@ interface ChatListProps {
 }
 
 function ChatList() {
-  const { isDarkTheme, toggleTheme } = useAppStore();
-  const { user, showModal, hideModal } = useAppStore();
+  const { isDarkTheme, toggleTheme, user, showModal, hideModal } = useAppStore();
   const [chats, setChats] = useState<Chat[]>([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false); // For refresh control
@@ -131,7 +132,7 @@ function ChatList() {
         isVIP: false,
       });
       Alert.alert('Chat Created', 'Regular chat created successfully.');
-      navigation.navigate('Chat', { chatId: response.data.chatId });
+      navigation.navigate('Chat', { chatId: response.data.chatId, title: response.data.chatId });
       fetchChats();
     } catch (error) {
       console.error('Error creating regular chat:', error);
@@ -255,7 +256,7 @@ function ChatList() {
   // ─────────────────────────────────────────────────────────────
   const shareChat = async (chatId: string) => {
     try {
-      await axios.post(`${SERVER_URL}/api/chats/share`, { chatId }); 
+      await axios.post(`${SERVER_URL}/api/chats/share`, { chatId });
       await Clipboard.setStringAsync(chatId); // Only the chat ID is copied
       Alert.alert('Copied', 'Chat ID copied to clipboard!');
     } catch (error) {
@@ -318,19 +319,21 @@ function ChatList() {
   //  Render chat list
   // ─────────────────────────────────────────────────────────────
   const renderChatItem = ({ item }: { item: Chat }) => (
-    <View style={[styles.chatItem, { backgroundColor: colors.surface }]}>
+    <Surface style={styles.chatItem} elevation={4}>
       <TouchableOpacity
         style={styles.chatContent}
-        onPress={() => navigation.navigate('Chat', { chatId: item.chatId })}
+        onPress={() => navigation.navigate('Chat', { chatId: item.chatId, title: item.isVIP ? item.customChatId : item.chatId })}
       >
-        <Text style={[styles.chatName, { color: colors.onSurface }]}>
-          {item.isVIP ? item.customChatId : item.chatId}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {item.isVIP && <Icon name="star" size={16} color={colors.primary} style={{ marginRight: 4 }} />}
+          <Text style={[styles.chatName, { color: colors.onSurface }]}>
+            {item.isVIP ? item.customChatId : item.chatId}
+          </Text>
+        </View>
         <Text style={[styles.lastMessage, { color: colors.onSurfaceVariant }]}>
           {item.lastMessage || ''}
         </Text>
       </TouchableOpacity>
-      {/* Content remains the same */}
       <View style={styles.buttons}>
         <IconButton
           icon="share"
@@ -345,7 +348,7 @@ function ChatList() {
           size={20}
         />
       </View>
-    </View>
+    </Surface>
   );
 
   if (loading) {
@@ -362,6 +365,7 @@ function ChatList() {
         data={chats}
         keyExtractor={(item) => item.chatId}
         renderItem={renderChatItem}
+        ItemSeparatorComponent={() => <View style={{ height: 8 }} />} // Add separator
         contentContainerStyle={{ paddingBottom: 80 }}
         ListEmptyComponent={
           <Text style={{ textAlign: 'center', color: colors.onSurface }}>
@@ -384,8 +388,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 12,
     borderRadius: 8,
-    marginBottom: 8,
-    elevation: 2,
+    marginBottom: 8, // Removed elevation since Surface handles it
   },
   chatContent: {
     flex: 1,

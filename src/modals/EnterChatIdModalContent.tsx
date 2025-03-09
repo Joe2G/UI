@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { Surface, useTheme } from 'react-native-paper';
 import { SERVER_URL } from '../config';
 import useAppStore from '../stores/appStore';
 
@@ -12,7 +12,7 @@ interface Props {
 
 export default function EnterChatIdModalContent({ onSubmit, hideModal }: Props) {
   const { colors } = useTheme();
-  const { user } = useAppStore(); // Retrieve the current user
+  const { user } = useAppStore();
   const [input, setInput] = useState('');
 
   const handleSubmit = async (id: string) => {
@@ -21,7 +21,6 @@ export default function EnterChatIdModalContent({ onSubmit, hideModal }: Props) 
       return;
     }
     try {
-      // Call the join endpoint so that the backend adds the user to allowedUsers
       const response = await axios.post(`${SERVER_URL}/api/chats/join`, { chatId: id, userId: user.id });
       if (response.data) {
         hideModal();
@@ -36,39 +35,39 @@ export default function EnterChatIdModalContent({ onSubmit, hideModal }: Props) 
   };
 
   return (
-    <View style={[styles.modalContent, { backgroundColor: colors.surface }]}>
+    <Surface style={[styles.modalContent, { backgroundColor: colors.surface, elevation: 4 }]}>
       <Text style={[styles.label, { color: colors.onSurface }]}>Enter Chat ID:</Text>
       <TextInput
         placeholder="Chat ID"
         value={input}
         onChangeText={setInput}
-        style={[styles.input, { borderColor: colors.onSurfaceVariant, color: colors.onSurface }]}
+        style={[styles.input, { borderColor: colors.onSurfaceVariant, color: colors.onSurface, backgroundColor: colors.background }]}
         placeholderTextColor={colors.onSurfaceVariant}
       />
       <View style={styles.buttonsRow}>
-        <Button title="Cancel" onPress={() => { hideModal(); onSubmit(''); }} />
-        <Button title="Join Chat" onPress={() => input.trim() && handleSubmit(input.trim())} />
+        <Button title="Cancel" onPress={() => { hideModal(); onSubmit(''); }} color={colors.error} />
+        <Button title="Join Chat" onPress={() => input.trim() && handleSubmit(input.trim())} color={colors.primary} />
       </View>
-    </View>
+    </Surface>
   );
 }
 
 const styles = StyleSheet.create({
   modalContent: {
     padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
+    width: '90%',
   },
   label: {
-    marginBottom: 10,
-    fontSize: 16,
+    marginBottom: 12,
+    fontSize: 18,
+    fontWeight: '500',
   },
   input: {
-    height: 40,
+    height: 45,
     borderWidth: 1,
-    borderColor: '#888',
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     marginBottom: 20,
     borderRadius: 8,
     width: '100%',

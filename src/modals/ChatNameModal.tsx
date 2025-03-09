@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Surface, useTheme } from 'react-native-paper';
 
 interface ChatNameModalProps {
   initialValue: string;
@@ -7,41 +8,46 @@ interface ChatNameModalProps {
 }
 
 export default function ChatNameModal({ initialValue, onSubmit }: ChatNameModalProps) {
+  const { colors } = useTheme();
   const [name, setName] = useState(initialValue);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Edit Chat Name</Text>
+    <Surface style={[styles.container, { backgroundColor: colors.surface, elevation: 4 }]}>
+      <Text style={[styles.label, { color: colors.onSurface }]}>Edit Chat Name</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { borderColor: colors.onSurfaceVariant, color: colors.onSurface, backgroundColor: colors.background }]}
         value={name}
         onChangeText={setName}
         placeholder="Enter new chat name"
+        placeholderTextColor={colors.onSurfaceVariant}
       />
       <Button
         title="Save"
         onPress={() => onSubmit(name.trim())}
+        color={colors.primary}
       />
-    </View>
+    </Surface>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    backgroundColor: 'white',
-    borderRadius: 8,
+    padding: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    width: '90%',
   },
   label: {
-    fontSize: 16,
-    marginBottom: 8,
+    fontSize: 18,
+    fontWeight: '500',
+    marginBottom: 12,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#999',
     borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginBottom: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 16,
+    width: '100%',
   },
 });

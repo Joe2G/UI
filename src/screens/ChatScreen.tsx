@@ -1,14 +1,5 @@
-import React, { useEffect, useLayoutEffect, useState, useRef } from 'react'; // Added useRef
-import {
-  FlatList,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  View,
-  ActivityIndicator,
-  RefreshControl,
-  Keyboard,
-} from 'react-native';
+import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
+import { FlatList, StyleSheet, KeyboardAvoidingView, Platform, View, ActivityIndicator, RefreshControl, Keyboard } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import { useTheme, IconButton } from 'react-native-paper';
@@ -57,16 +48,18 @@ export default function ChatScreen() {
   // Ref for FlatList to handle scrolling
   const flatListRef = useRef<FlatList>(null);
 
-  // Handle keyboard opening
+  // Load custom name from AsyncStorage
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      flatListRef.current?.scrollToEnd({ animated: true });
-    });
-
-    return () => {
-      keyboardDidShowListener.remove();
+    const loadChatName = async () => {
+      const storedName = await AsyncStorage.getItem(`chatName_${chatId}`);
+      if (storedName) {
+        setCustomName(storedName);
+      } else {
+        setCustomName(title ?? chatId);
+      }
     };
-  }, []);
+    loadChatName();
+  }, [chatId, title]);
 
   // ──────────────────────────────────────────────────────────
   // 1) Show the pen icon in the header
@@ -118,14 +111,11 @@ export default function ChatScreen() {
 
   // Load custom chat name from AsyncStorage
   useEffect(() => {
-    const loadChatName = async () => {
-      const storedName = await AsyncStorage.getItem(`chatName_${chatId}`);
-      if (storedName) {
-        setCustomName(storedName);
-      }
-    };
-    loadChatName();
-  }, [chatId]);
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      flatListRef.current?.scrollToEnd({ animated: true });
+    });
+    return () => keyboardDidShowListener.remove();
+  }, []);
 
   // ──────────────────────────────────────────────────────────
   // 2) Load & Refresh Messages
@@ -186,7 +176,7 @@ export default function ChatScreen() {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={styles(colors).loadingContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
       </View>
     );
@@ -207,7 +197,7 @@ export default function ChatScreen() {
         renderItem={({ item }) => (
           <MessageBubble message={item} isCurrentUser={item.userId === user.id} />
         )}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={styles(colors).contentContainer}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -218,15 +208,16 @@ export default function ChatScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = (colors: any) => StyleSheet.create({
   contentContainer: {
-    paddingVertical: 10, // vertical padding for spacing
-    paddingHorizontal: 10, // optional horizontal padding
+    paddingVertical: 16, // Increased from 10 for more vertical spacing
+    paddingHorizontal: 12, // Slightly increased from 10 for better margins
     flexGrow: 1,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.background, // Match theme background
   },
 });
